@@ -11,8 +11,10 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using RietRob.Desktop.UI.Enums;
 using ILog = log4net.ILog;
 using LogManager = log4net.LogManager;
@@ -68,9 +70,10 @@ namespace RietRob.Desktop.UI.Helper
 
             if (!File.Exists(LogFileName + ".txt"))
             {
-                File.Create(LogFileName);
+                File.Create(LogFileName + ".txt");
+                
             }
-
+            Thread.Sleep(500);
             using (StreamWriter sw = File.AppendText(LogFileName + ".txt"))
             {
                 sw.WriteLine("--------------------------------------------------------------------------------");

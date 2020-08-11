@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RietRob.Desktop.UI.Views"
         mc:Ignorable="d"
+        MaxHeight="650" MinHeight="650" MinWidth="1100" MaxWidth="1100"  ResizeMode="NoResize"
         Title="{Binding Path=Title, FallbackValue=Title is missing}"  Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -14,9 +15,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Row 0 -->

@@ -75,8 +75,9 @@
     </Compile>
     <Compile Include="Enums\LogState.cs" />
     <Compile Include="EventAggregationProvider.cs" />
+    <Compile Include="Helper\InstallRunner.cs" />
     <Compile Include="Helper\LogHelper.cs" />
-    <Compile Include="Models\File.cs" />
+    <Compile Include="Models\Installer.cs" />
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\ContentView.xaml.cs">

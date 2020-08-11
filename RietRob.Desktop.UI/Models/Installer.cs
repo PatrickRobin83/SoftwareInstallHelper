@@ -12,7 +12,7 @@
 
 namespace RietRob.Desktop.UI.Models
 {
-    public class File
+    public class Installer
     {
         
 
@@ -21,9 +21,9 @@ namespace RietRob.Desktop.UI.Models
         #endregion
 
         #region Properties
-
         public string Filename { get; set; }
-        public string FileExtesion { get; set; }
+        public string FileExtension { get; set; }
+        public string FullFileName { get; set; }
 
 
         #endregion
