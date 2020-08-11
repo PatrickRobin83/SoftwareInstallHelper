@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="RietRob.Desktop.UI.Views.ContentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RietRob.Desktop.UI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" Width="743.32">
+    <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+        <ListView x:Name="AvailableInstallerList" SelectedItem="{Binding Path=SelectedAvailableInstaller, 
+                  Mode=OneWayToSource}" DisplayMemberPath="FileName" 
+                  MaxHeight="200" MinHeight="200"
+                  MinWidth="200" ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        <StackPanel Orientation="Vertical" Margin="10 0 10 5" VerticalAlignment="Center">
+            <Button x:Name="btn_AddInstaller" Margin="5 0 0 0" >&gt;&gt; Installer hinzufügen &gt;&gt;</Button>
+            <Button x:Name="btn_RemoveInstaller" Margin="5 5 0 0" >&lt;&lt; Installer enfernen &lt;&lt;</Button>
+        </StackPanel>
+        <ListView x:Name="PickedInstallerList" SelectedItem="{Binding Path=SelectedPickedInstaller, Mode=OneWayToSource}"
+                  DisplayMemberPath="FileName" MaxHeight="200" MinHeight="200"
+                  MinWidth="200" ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto" Width="121"/>
+        <Button x:Name="btn_Install" Height="30" Margin="20,0,0,0" Padding="5">Installiere Software</Button>
+    </StackPanel>
+</UserControl>

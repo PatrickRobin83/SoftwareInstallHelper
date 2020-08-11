@@ -1,0 +1,52 @@
+﻿<Window x:Class="RietRob.Desktop.UI.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RietRob.Desktop.UI.Views"
+        mc:Ignorable="d"
+        Title="{Binding Path=Title, FallbackValue=Title is missing}"  Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Row 0 -->
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Vertical">
+            <Label Content="Installer"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   FontSize="35"/>
+        </StackPanel>
+        
+        <!-- Row I -->
+
+        <StackPanel Grid.Row="1" Grid.Column="0" 
+                    Grid.ColumnSpan="3" 
+                    x:Name="ContentIsVisible"
+                    HorizontalAlignment="Left">
+            <ContentControl x:Name="ContentViewModel"/>
+        </StackPanel>
+
+        <!-- Row II -->
+
+        <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" 
+                 Background="Black" Foreground="Green"
+                 Text="{Binding LoggerText}"/> 
+        
+        <!-- Row III -->
+        <Button Grid.Row="3" Grid.Column="2" x:Name="Exit" Width="200" Height="30" Content="Beenden"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0,10,10,10"
+                FontSize="20"/>
+    </Grid>
+</Window>
