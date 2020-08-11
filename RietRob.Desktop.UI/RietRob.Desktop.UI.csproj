@@ -135,6 +135,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Installer\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>mkdir "$(TargetDir)Installer"
+del /Q "$(TargetDir)Installer\*.*"
+copy /y "$(ProjectDir)Installer\*.*" "$(TargetDir)Installer\*.*"
+</PreBuildEvent>
+  </PropertyGroup>
 </Project>
