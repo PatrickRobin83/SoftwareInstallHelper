@@ -126,6 +126,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Installer\usbdeviewx64_3.00.zip" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -135,8 +136,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Installer\" />
+    <Content Include="Installer\CCleanerSetup568.exe" />
+    <Content Include="Installer\Greenshot-INSTALLER-1.2.10.6-RELEASE.exe" />
+    <Content Include="Installer\K-Lite_Codec_Pack_1565_Mega.exe" />
+    <Content Include="Installer\NotePadPlusPlusInstaller.x64.exe" />
+    <Content Include="Installer\TeamViewerQS.exe" />
+    <Content Include="Installer\TreeSizeFreeSetup.exe" />
+    <Content Include="Installer\UltraVNC_1_2_40_X64_Setup.exe" />
+    <Content Include="Installer\vlc-3.0.11-win64.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
