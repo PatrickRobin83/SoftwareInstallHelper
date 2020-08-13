@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -142,7 +143,7 @@
     <Content Include="Installer\Greenshot-INSTALLER-1.2.10.6-RELEASE.exe" />
     <Content Include="Installer\K-Lite_Codec_Pack_1565_Mega.exe" />
     <Content Include="Installer\NotePadPlusPlusInstaller.x64.exe" />
-    <Content Include="Installer\TeamViewerQS.exe" />
+    <Content Include="Installer\TeamViewer_Host_Setup.exe" />
     <Content Include="Installer\TreeSizeFreeSetup.exe" />
     <Content Include="Installer\UltraVNC_1_2_40_X64_Setup.exe" />
     <Content Include="Installer\vlc-3.0.11-win64.exe" />

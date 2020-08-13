@@ -13,8 +13,10 @@
                   MinWidth="200" ScrollViewer.CanContentScroll="True"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         <StackPanel Orientation="Vertical" Margin="10 0 10 5" VerticalAlignment="Center">
-            <Button x:Name="btn_AddInstaller" Margin="5 0 0 0" Visibility="{Binding btn_AddInstallerIsVisible}">&gt;&gt; Installer hinzufügen &gt;&gt;</Button>
-            <Button x:Name="btn_RemoveInstaller" Margin="5 5 0 0" Visibility="{Binding btn_RemoveInstallerIsVisible}" >&lt;&lt; Installer enfernen &lt;&lt;</Button>
+            <Button x:Name="btn_AddInstaller" Margin="5 0 0 5" Visibility="{Binding btn_AddInstallerIsVisible}">&gt; Installer hinzufügen &gt;</Button>
+            <Button x:Name="btn_AddAllInstaller" Margin="5 0 0 0" Visibility="{Binding btn_AddAllInstallerIsVisible}">&gt;&gt; Alle hinzufügen &gt;&gt;</Button>
+            <Button x:Name="btn_RemoveInstaller" Margin="5 20 0 5" Visibility="{Binding btn_RemoveInstallerIsVisible}" >&lt; Installer enfernen &lt;</Button>
+            <Button x:Name="btn_RemoveAllInstaller" Margin="5 5 0 0" Visibility="{Binding btn_RemoveAllInstallerIsVisible}" >&lt;&lt; Alle enfernen &lt;&lt;</Button>
         </StackPanel>
         <ListView x:Name="PickedInstallerList" SelectedItem="{Binding Path=SelectedPickedInstaller, Mode=TwoWay}"
                   DisplayMemberPath="Filename" MaxHeight="200" MinHeight="200"

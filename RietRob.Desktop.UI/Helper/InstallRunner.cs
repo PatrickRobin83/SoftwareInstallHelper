@@ -9,7 +9,14 @@
 */
 
 using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
+using System.Linq.Expressions;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Input;
 using RietRob.Desktop.UI.Models;
 
 namespace RietRob.Desktop.UI.Helper
@@ -34,16 +41,67 @@ namespace RietRob.Desktop.UI.Helper
 
         #region Methods
 
-        public static void InstallProgram(Installer fileToInstall)
+        public static void InstallPrograms(ObservableCollection<Installer> InstallerCollection)
         {
-            Console.WriteLine($"{fileToInstall.Filename} wird installiert.");
+            //ToDO: Start a process install the software and after finishing the process
+            bool processFinished = false;
+            foreach (Installer fileToInstall in InstallerCollection)
+            {
+                Console.WriteLine($"{fileToInstall.Filename} wird installiert.");
+                string substring = fileToInstall.Filename.Substring(0, 4);
+                string fileToInstallArguments = "";
+                string command = "";
+                if (substring.Equals("usbd"))
+                {
+                    ZipFile.ExtractToDirectory(fileToInstall.FullFileName,$"C:\\{Environment.SpecialFolder.Programs}\\{fileToInstall.Filename.Substring(0,17)}\\");
+                }
+                else
+                {
+                    switch (substring)
+                    {
+                        case "CCle":
+                            fileToInstallArguments = "/S";
+                            break;
+                        case "Gree":
+                            fileToInstallArguments = "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES";
+                            break;
+                        case "K-Li":
+                            fileToInstallArguments = "/verysilent";
+                            break;
+                        case "Note":
+                            fileToInstallArguments = "/S";
+                            break;
+                        case "Tree":
+                            fileToInstallArguments = "/VERYSILENT";
+                            break;
+                        case "Ultr":
+                            fileToInstallArguments = "/verysilent";
+                            break;
+                        case "vlc-":
+                            fileToInstallArguments = "/S";
+                            break;
+                        case "Team":
+                            fileToInstallArguments = "/S";
+                            break;
+                    }
+
+                    command = $"/C {fileToInstall.FullFileName} {fileToInstallArguments}";
+                }
+                ProcessStartInfo startinfo = new ProcessStartInfo();
+                startinfo.WindowStyle = ProcessWindowStyle.Hidden;
+                startinfo.FileName = "cmd.exe";
+                startinfo.Arguments = command;
+                Process process = new Process();
+                process.StartInfo = startinfo;
+                process.Start();
+                process.WaitForExit();
+            }
         }
+
         #endregion
 
         #region EventHandler
 
         #endregion
-
-
     }
 }

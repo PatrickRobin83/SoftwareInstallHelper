@@ -10,34 +10,34 @@
  * @Version      1.0.0
  */
 
-using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using Caliburn.Micro;
 using RietRob.Desktop.UI.Enums;
 using RietRob.Desktop.UI.Helper;
 using RietRob.Desktop.UI.Models;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Threading;
 
 namespace RietRob.Desktop.UI.ViewModels
 {
     public class ContentViewModel : Conductor<object>.Collection.OneActive
     {
-
         #region Fields
 
         private string _btnInstallIsVisible = "Hidden";
         private string _btnAddInstallerIsVisible = "Hidden";
+        private string _btnAddAllInstallerIsVisible = "Hidden";
         private string _btnRemoveInstallerIsVisible = "Hidden";
-        private ObservableCollection<object> _availableFiles;
+        private string _btnRemoveAllInstallerIsVisible = "Hidden";
+        private ObservableCollection<Installer> _availableFiles;
         private Installer _selectedAvailableInstaller;
-        private ObservableCollection<object> _pickedInstallerList;
+        private ObservableCollection<Installer> _pickedInstallerList;
         private Installer _selectedPickedInstaller;
 
         #endregion
 
         #region Properties
-
         public string btn_InstallIsVisible
         {
             get { return _btnInstallIsVisible; }
@@ -47,7 +47,15 @@ namespace RietRob.Desktop.UI.ViewModels
                 NotifyOfPropertyChange(() => btn_InstallIsVisible);
             }
         }
-
+        public string btn_AddAllInstallerIsVisible
+        {
+            get { return _btnAddAllInstallerIsVisible; }
+            set
+            {
+                _btnAddAllInstallerIsVisible = value;
+                NotifyOfPropertyChange(() => btn_AddAllInstallerIsVisible);
+            }
+        }
         public string btn_AddInstallerIsVisible
         {
             get { return _btnAddInstallerIsVisible; }
@@ -57,7 +65,6 @@ namespace RietRob.Desktop.UI.ViewModels
                 NotifyOfPropertyChange(() => btn_AddInstallerIsVisible);
             }
         }
-
         public string btn_RemoveInstallerIsVisible
         {
             get { return _btnRemoveInstallerIsVisible; }
@@ -67,7 +74,15 @@ namespace RietRob.Desktop.UI.ViewModels
                 NotifyOfPropertyChange(() => btn_RemoveInstallerIsVisible);
             }
         }
-
+        public string btn_RemoveAllInstallerIsVisible
+        {
+            get { return _btnRemoveAllInstallerIsVisible; }
+            set
+            {
+                _btnRemoveAllInstallerIsVisible = value;
+                NotifyOfPropertyChange(() => btn_RemoveAllInstallerIsVisible);
+            }
+        }
         public Installer SelectedAvailableInstaller
         {
             get { return _selectedAvailableInstaller; }
@@ -78,8 +93,7 @@ namespace RietRob.Desktop.UI.ViewModels
                 NotifyOfPropertyChange(() => Canbtn_AddInstaller);
             }
         }
-
-        public ObservableCollection<object> PickedInstallerList
+        public ObservableCollection<Installer> PickedInstallerList
         {
             get { return _pickedInstallerList; }
             set
@@ -87,9 +101,11 @@ namespace RietRob.Desktop.UI.ViewModels
                 _pickedInstallerList = value;
                 NotifyOfPropertyChange(() => PickedInstallerList);
                 NotifyOfPropertyChange(() => btn_RemoveInstallerIsVisible);
+                NotifyOfPropertyChange(() => btn_RemoveAllInstallerIsVisible);
+                NotifyOfPropertyChange(() => Canbtn_RemoveAllInstaller);
             }
         }
-        public ObservableCollection<object> AvailableFiles
+        public ObservableCollection<Installer> AvailableFiles
         {
             get { return _availableFiles; }
             set
@@ -97,9 +113,9 @@ namespace RietRob.Desktop.UI.ViewModels
                 _availableFiles = value;
                 NotifyOfPropertyChange(() => AvailableFiles);
                 NotifyOfPropertyChange(() => Canbtn_AddInstaller);
+                NotifyOfPropertyChange(() => Canbtn_AddAllInstaller);
             }
         }
-
         public Installer SelectedPickedInstaller
         {
             get { return _selectedPickedInstaller; }
@@ -120,8 +136,8 @@ namespace RietRob.Desktop.UI.ViewModels
 
         public ContentViewModel()
         {
-            AvailableFiles = new ObservableCollection<object>();
-            PickedInstallerList = new ObservableCollection<object>();
+            AvailableFiles = new ObservableCollection<Installer>();
+            PickedInstallerList = new ObservableCollection<Installer>();
             GetAllInstaller();
 
         }
@@ -130,7 +146,7 @@ namespace RietRob.Desktop.UI.ViewModels
 
         #region Methods
 
-        private ObservableCollection<object> GetAllInstaller()
+        private ObservableCollection<Installer> GetAllInstaller()
         {
             DirectoryInfo di = new DirectoryInfo(Installerpath);
             Installer tmpInstaller;
@@ -145,11 +161,11 @@ namespace RietRob.Desktop.UI.ViewModels
             }
 
             btn_AddInstallerIsVisible = CheckList(AvailableFiles);
+            btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
             
             return AvailableFiles;
         }
-
-        private string CheckList(ObservableCollection<object> listToCheck)
+        private string CheckList(ObservableCollection<Installer> listToCheck)
         {
             string visibility = "hidden";
 
@@ -164,7 +180,6 @@ namespace RietRob.Desktop.UI.ViewModels
 
             return visibility;
         }
-
         public bool Canbtn_AddInstaller
         {
             get
@@ -179,7 +194,20 @@ namespace RietRob.Desktop.UI.ViewModels
                 return result;
             }
         }
+        public bool Canbtn_AddAllInstaller
+        {
+            get
+            {
+                bool result = false;
 
+                if (AvailableFiles.Count > 0)
+                {
+                    result = true;
+                }
+
+                return result;
+            }
+        }
         public bool Canbtn_RemoveInstaller
         {
             get
@@ -192,7 +220,18 @@ namespace RietRob.Desktop.UI.ViewModels
                 return result;
             }
         }
-
+        public bool Canbtn_RemoveAllInstaller
+        {
+            get
+            {
+                bool result = false;
+                if (PickedInstallerList.Count > 0)
+                {
+                    result = true;
+                }
+                return result;
+            }
+        }
         public void btn_AddInstaller()
         {
             LogHelper.WriteToLog($"{SelectedAvailableInstaller.Filename} was added to the List for installation", LogState.Info);
@@ -200,40 +239,64 @@ namespace RietRob.Desktop.UI.ViewModels
             AvailableFiles.Remove(SelectedAvailableInstaller);
             btn_InstallIsVisible = CheckList(PickedInstallerList);
             btn_AddInstallerIsVisible = CheckList(AvailableFiles);
+            btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
             btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
+            btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
         }
+        public void btn_AddAllInstaller()
+        {
+            foreach (Installer installer in AvailableFiles)
+            {
+                PickedInstallerList.Add(installer);
+                LogHelper.WriteToLog($"All installer added to the List for installation", LogState.Info);
+            }
+            AvailableFiles.Clear();
+            btn_InstallIsVisible = CheckList(PickedInstallerList);
+            btn_AddInstallerIsVisible = CheckList(AvailableFiles);
+            btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
+            btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
+            btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
+            NotifyOfPropertyChange(() => Canbtn_RemoveAllInstaller);
 
+        }
         public void btn_RemoveInstaller()
         {
             AvailableFiles.Add(SelectedPickedInstaller);
             PickedInstallerList.Remove(SelectedPickedInstaller);
             btn_InstallIsVisible = CheckList(PickedInstallerList);
             btn_AddInstallerIsVisible = CheckList(AvailableFiles);
+            btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
             btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
+            btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
 
         }
+        public void btn_RemoveAllInstaller()
+        {
+            foreach (Installer installer in PickedInstallerList)
+            {
+                AvailableFiles.Add(installer);
+            }
+            PickedInstallerList.Clear();
+            btn_InstallIsVisible = CheckList(PickedInstallerList);
+            btn_AddInstallerIsVisible = CheckList(AvailableFiles);
+            btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
+            btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
+            btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
 
+        }
         public void btn_Install()
         {
             LogHelper.WriteToLog("Installation of selected Programs started", LogState.Info);
             btn_InstallIsVisible = "Hidden";
             if (PickedInstallerList.Count > 0)
             {
-                foreach (Installer installer in PickedInstallerList)
-                {
-                    InstallRunner.InstallProgram(installer);
-                }
+                InstallRunner.InstallPrograms(PickedInstallerList);
             }
-
-            Console.WriteLine("Installation finished");
-            //LogHelper.WriteToLog("Installation finished.", LogState.Info);
-            foreach (Installer installer in PickedInstallerList)
-            {
-                AvailableFiles.Add(installer);
-            }
+            LogHelper.WriteToLog("Installation finished.", LogState.Info);
+            AvailableFiles.Clear();
+            GetAllInstaller();
             PickedInstallerList.Clear();
         }
         #endregion
-
     }
 }

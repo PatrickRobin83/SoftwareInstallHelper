@@ -73,7 +73,7 @@ namespace RietRob.Desktop.UI.Helper
                 File.Create(LogFileName + ".txt");
                 
             }
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
             using (StreamWriter sw = File.AppendText(LogFileName + ".txt"))
             {
                 sw.WriteLine("--------------------------------------------------------------------------------");
