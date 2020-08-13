@@ -17,6 +17,7 @@ using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Input;
+using RietRob.Desktop.UI.Enums;
 using RietRob.Desktop.UI.Models;
 
 namespace RietRob.Desktop.UI.Helper
@@ -43,11 +44,9 @@ namespace RietRob.Desktop.UI.Helper
 
         public static void InstallPrograms(ObservableCollection<Installer> installerCollection)
         {
-            //ToDO: Start a process install the software and after finishing the process
-            bool processFinished = false;
             foreach (Installer fileToInstall in installerCollection)
             {
-                Console.WriteLine($"{fileToInstall.Filename} wird installiert.");
+                LogHelper.WriteToLog($"{fileToInstall.Filename} wird installiert.", LogState.Info);
                 string substring = fileToInstall.Filename.Substring(0, 4);
                 string fileToInstallArguments = "";
                 string command = "";

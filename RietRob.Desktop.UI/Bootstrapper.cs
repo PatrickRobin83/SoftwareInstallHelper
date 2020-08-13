@@ -10,6 +10,8 @@
  * @Version      1.0.0
  */
 
+using System;
+using System.IO;
 using System.Windows;
 using Caliburn.Micro;
 using RietRob.Desktop.UI.Helper;
@@ -25,7 +27,6 @@ namespace RietRob.Desktop.UI
         #endregion
 
         #region Properties
-
         #endregion
 
         #region Constructor
@@ -33,11 +34,13 @@ namespace RietRob.Desktop.UI
         public Bootstrapper()
         {
             Initialize();
-            LogHelper.WriteLogOnStartup();
+            LogHelper.CreateLogFile();
         }
         #endregion
 
         #region Methods
+
+        
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {

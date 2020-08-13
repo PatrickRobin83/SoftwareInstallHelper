@@ -248,7 +248,7 @@ namespace RietRob.Desktop.UI.ViewModels
             foreach (Installer installer in AvailableFiles)
             {
                 PickedInstallerList.Add(installer);
-                LogHelper.WriteToLog($"All installer added to the List for installation", LogState.Info);
+                LogHelper.WriteToLog($"{installer.Filename} added to the List for installation", LogState.Info);
             }
             AvailableFiles.Clear();
             btn_InstallIsVisible = CheckList(PickedInstallerList);

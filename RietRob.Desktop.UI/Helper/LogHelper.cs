@@ -13,8 +13,11 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using log4net;
+using log4net.Config;
 using RietRob.Desktop.UI.Enums;
 using ILog = log4net.ILog;
 using LogManager = log4net.LogManager;
@@ -31,7 +34,7 @@ namespace RietRob.Desktop.UI.Helper
         /// <summary>
         /// Gets the Logger to Log to
         /// </summary>
-        private static readonly log4net.ILog Log = LogHelper.GetLogger();
+        private static readonly ILog Log = LogHelper.GetLogger();
 
         #endregion
 
@@ -39,7 +42,7 @@ namespace RietRob.Desktop.UI.Helper
         /// <summary>
         /// LogFileName to Log to
         /// </summary>
-        public static string LogFileName { get; } = Environment.CurrentDirectory + @"\Logs\" + DateTime.Now.ToShortDateString() + @"_log";
+        public static string LogFileName { get; } = Environment.CurrentDirectory + @"\Logs\" + DateTime.Now.ToString("yyyy-MM-dd")+ "_Logfile";
         #endregion
 
         #region Constructor
@@ -47,6 +50,7 @@ namespace RietRob.Desktop.UI.Helper
         #endregion
 
         #region Methods
+
 
         /// <summary>
         /// Gets the Logger and overgive a filename
@@ -58,23 +62,42 @@ namespace RietRob.Desktop.UI.Helper
             return LogManager.GetLogger(filename);
         }
 
-        /// <summary>
-        /// Writes the Logfile and fill some stadard information at startup.
-        /// </summary>
-        public static void WriteLogOnStartup()
+        public static void CreateLogFile()
         {
+
             if (!Directory.Exists(Environment.CurrentDirectory + @"\Logs\"))
             {
                 Directory.CreateDirectory(Environment.CurrentDirectory + @"\Logs\");
             }
 
-            if (!File.Exists(LogFileName + ".txt"))
+            if (!File.Exists(LogFileName + ".log"))
             {
-                File.Create(LogFileName + ".txt");
-                
+                File.Create(LogFileName + ".log");
             }
-            Thread.Sleep(1000);
-            using (StreamWriter sw = File.AppendText(LogFileName + ".txt"))
+        }
+
+        /// <summary>
+        /// Writes the Logfile and fill some standard information at startup.
+        /// </summary>
+        public static void WriteLogOnStartup()
+        {
+            bool notLocked = false;
+            while (!notLocked)
+            {
+                try
+                {
+                    FileStream fs = File.Open($"{LogFileName}.log", FileMode.OpenOrCreate,
+                        FileAccess.ReadWrite, FileShare.None);
+                    fs.Close();
+
+                    notLocked = true;
+                }
+                catch (IOException ex)
+                {
+                    notLocked = false;
+                }
+            }
+            using (StreamWriter sw = File.AppendText(LogFileName + ".log"))
             {
                 sw.WriteLine("--------------------------------------------------------------------------------");
                 sw.WriteLine($"Softwareversion = {typeof(LogHelper).Assembly.GetName().Version}");
@@ -95,10 +118,10 @@ namespace RietRob.Desktop.UI.Helper
         /// <param name="logState"></param>
         public static void WriteToLog(string logMessage, LogState logState)
         {
-            log4net.GlobalContext.Properties["LogFile"] = LogFileName;
-            string s = new Uri(Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.
+            GlobalContext.Properties["LogFile"] = LogFileName;
+            string s = new Uri(Path.Combine(Path.GetDirectoryName(Assembly.
                 GetExecutingAssembly().CodeBase), "log4net.config")).LocalPath;
-            log4net.Config.XmlConfigurator.Configure();
+            XmlConfigurator.Configure();
             switch (logState)
             {
                 case LogState.Debug:
@@ -135,6 +158,5 @@ namespace RietRob.Desktop.UI.Helper
         }
 
         #endregion
-
     }
 }
