@@ -41,11 +41,11 @@ namespace RietRob.Desktop.UI.Helper
 
         #region Methods
 
-        public static void InstallPrograms(ObservableCollection<Installer> InstallerCollection)
+        public static void InstallPrograms(ObservableCollection<Installer> installerCollection)
         {
             //ToDO: Start a process install the software and after finishing the process
             bool processFinished = false;
-            foreach (Installer fileToInstall in InstallerCollection)
+            foreach (Installer fileToInstall in installerCollection)
             {
                 Console.WriteLine($"{fileToInstall.Filename} wird installiert.");
                 string substring = fileToInstall.Filename.Substring(0, 4);
