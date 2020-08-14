@@ -33,9 +33,7 @@ namespace RietRob.Desktop.UI
 
         public Bootstrapper()
         {
-            Initialize();
-            LogHelper.CreateLogFile();
-        }
+            Initialize(); }
         #endregion
 
         #region Methods

@@ -139,7 +139,6 @@ namespace RietRob.Desktop.UI.ViewModels
             AvailableFiles = new ObservableCollection<Installer>();
             PickedInstallerList = new ObservableCollection<Installer>();
             GetAllInstaller();
-
         }
 
         #endregion
@@ -148,21 +147,28 @@ namespace RietRob.Desktop.UI.ViewModels
 
         private ObservableCollection<Installer> GetAllInstaller()
         {
-            DirectoryInfo di = new DirectoryInfo(Installerpath);
-            Installer tmpInstaller;
-            foreach (var fi in di.GetFiles())
+            try
             {
-                 tmpInstaller = new Installer();
-                 tmpInstaller.Filename = fi.Name;
-                 tmpInstaller.FileExtension = fi.Extension;
-                 tmpInstaller.FullFileName = fi.FullName;
+                DirectoryInfo di = new DirectoryInfo(Installerpath);
+                Installer tmpInstaller;
+                foreach (var fi in di.GetFiles())
+                {
+                    tmpInstaller = new Installer();
+                    tmpInstaller.Filename = fi.Name;
+                    tmpInstaller.FileExtension = fi.Extension;
+                    tmpInstaller.FullFileName = fi.FullName;
 
-                 AvailableFiles.Add(tmpInstaller);
+                    AvailableFiles.Add(tmpInstaller);
+                }
+
+                btn_AddInstallerIsVisible = CheckList(AvailableFiles);
+                btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
             }
-
-            btn_AddInstallerIsVisible = CheckList(AvailableFiles);
-            btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
-            
+            catch (IOException ex)
+            {
+                LogHelper.WriteToLog(ex.StackTrace, LogState.Error);
+            }
+            LogHelper.WriteToLog("Available Installer loaded", LogState.Info);
             return AvailableFiles;
         }
         private string CheckList(ObservableCollection<Installer> listToCheck)
@@ -234,65 +240,93 @@ namespace RietRob.Desktop.UI.ViewModels
         }
         public void btn_AddInstaller()
         {
-            LogHelper.WriteToLog($"{SelectedAvailableInstaller.Filename} was added to the List for installation", LogState.Info);
-            PickedInstallerList.Add(SelectedAvailableInstaller);
-            AvailableFiles.Remove(SelectedAvailableInstaller);
-            btn_InstallIsVisible = CheckList(PickedInstallerList);
-            btn_AddInstallerIsVisible = CheckList(AvailableFiles);
-            btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
-            btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
-            btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
+            try
+            {
+                LogHelper.WriteToLog($"{SelectedAvailableInstaller.Filename} was added to the List for installation", LogState.Info);
+                PickedInstallerList.Add(SelectedAvailableInstaller);
+                AvailableFiles.Remove(SelectedAvailableInstaller);
+                btn_InstallIsVisible = CheckList(PickedInstallerList);
+                btn_AddInstallerIsVisible = CheckList(AvailableFiles);
+                btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
+                btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
+                btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
+            }
+            catch (Exception e)
+            {
+               LogHelper.WriteToLog(e.Message + "\r\n" + e.StackTrace,LogState.Error);
+            }
         }
         public void btn_AddAllInstaller()
         {
-            foreach (Installer installer in AvailableFiles)
+            try
             {
-                PickedInstallerList.Add(installer);
-                LogHelper.WriteToLog($"{installer.Filename} added to the List for installation", LogState.Info);
+                foreach (Installer installer in AvailableFiles)
+                {
+                    PickedInstallerList.Add(installer);
+                    LogHelper.WriteToLog($"{installer.Filename} added to the List for installation", LogState.Info);
+                }
+                AvailableFiles.Clear();
+                btn_InstallIsVisible = CheckList(PickedInstallerList);
+                btn_AddInstallerIsVisible = CheckList(AvailableFiles);
+                btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
+                btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
+                btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
+                NotifyOfPropertyChange(() => Canbtn_RemoveAllInstaller);
             }
-            AvailableFiles.Clear();
-            btn_InstallIsVisible = CheckList(PickedInstallerList);
-            btn_AddInstallerIsVisible = CheckList(AvailableFiles);
-            btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
-            btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
-            btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
-            NotifyOfPropertyChange(() => Canbtn_RemoveAllInstaller);
+            catch (Exception e)
+            {
+                LogHelper.WriteToLog(e.Message + "\r\n" + e.StackTrace, LogState.Error);
+            }
 
         }
         public void btn_RemoveInstaller()
         {
-            AvailableFiles.Add(SelectedPickedInstaller);
-            PickedInstallerList.Remove(SelectedPickedInstaller);
-            btn_InstallIsVisible = CheckList(PickedInstallerList);
-            btn_AddInstallerIsVisible = CheckList(AvailableFiles);
-            btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
-            btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
-            btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
-
+            try
+            {
+                AvailableFiles.Add(SelectedPickedInstaller);
+                PickedInstallerList.Remove(SelectedPickedInstaller);
+                btn_InstallIsVisible = CheckList(PickedInstallerList);
+                btn_AddInstallerIsVisible = CheckList(AvailableFiles);
+                btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
+                btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
+                btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
+                LogHelper.WriteToLog($"{SelectedPickedInstaller.Filename} is removed from installation list", LogState.Info);
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteToLog(e.Message + "\r\n" + e.StackTrace, LogState.Error);
+            }
         }
         public void btn_RemoveAllInstaller()
         {
-            foreach (Installer installer in PickedInstallerList)
+            try
             {
-                AvailableFiles.Add(installer);
+                foreach (Installer installer in PickedInstallerList)
+                {
+                    AvailableFiles.Add(installer);
+                    LogHelper.WriteToLog($"{SelectedPickedInstaller.Filename} is removed from installation list", LogState.Info);
+                }
+                PickedInstallerList.Clear();
+                btn_InstallIsVisible = CheckList(PickedInstallerList);
+                btn_AddInstallerIsVisible = CheckList(AvailableFiles);
+                btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
+                btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
+                btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
+                LogHelper.WriteToLog($"{SelectedPickedInstaller.Filename} is removed from installation list", LogState.Info);
             }
-            PickedInstallerList.Clear();
-            btn_InstallIsVisible = CheckList(PickedInstallerList);
-            btn_AddInstallerIsVisible = CheckList(AvailableFiles);
-            btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
-            btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
-            btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
+            catch (Exception e)
+            {
+                LogHelper.WriteToLog(e.Message + "\r\n" + e.StackTrace, LogState.Error);
+            }
 
         }
         public void btn_Install()
         {
-            LogHelper.WriteToLog("Installation of selected Programs started", LogState.Info);
             btn_InstallIsVisible = "Hidden";
             if (PickedInstallerList.Count > 0)
             {
                 InstallRunner.InstallPrograms(PickedInstallerList);
             }
-            LogHelper.WriteToLog("Installation finished.", LogState.Info);
             AvailableFiles.Clear();
             GetAllInstaller();
             PickedInstallerList.Clear();

@@ -9,14 +9,11 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows.Input;
 using RietRob.Desktop.UI.Enums;
 using RietRob.Desktop.UI.Models;
 
@@ -46,13 +43,26 @@ namespace RietRob.Desktop.UI.Helper
         {
             foreach (Installer fileToInstall in installerCollection)
             {
-                LogHelper.WriteToLog($"{fileToInstall.Filename} wird installiert.", LogState.Info);
+                LogHelper.WriteToLog($"{fileToInstall.Filename} installation started", LogState.Info);
                 string substring = fileToInstall.Filename.Substring(0, 4);
                 string fileToInstallArguments = "";
                 string command = "";
                 if (substring.Equals("usbd"))
                 {
-                    ZipFile.ExtractToDirectory(fileToInstall.FullFileName,$"C:\\{Environment.SpecialFolder.Programs}\\{fileToInstall.Filename.Substring(0,17)}\\");
+                    List<FileInfo> filesToDelete = new List<FileInfo>();
+
+                    if (Directory.GetFiles($"C:\\{Environment.SpecialFolder.Programs}\\").Length >  0)
+                    {
+                        DirectoryInfo di = new DirectoryInfo(@$"C:\{Environment.SpecialFolder.Programs}");
+                        foreach (FileInfo fileInfo in di.GetFiles())
+                        {
+                            filesToDelete.Add(fileInfo);
+                        }
+
+                        
+                    }
+                    ZipFile.ExtractToDirectory(fileToInstall.FullFileName,
+                        $"C:\\{Environment.SpecialFolder.Programs}\\{fileToInstall.Filename.Substring(0,15)}\\");
                 }
                 else
                 {
@@ -85,15 +95,18 @@ namespace RietRob.Desktop.UI.Helper
                     }
 
                     command = $"/C {fileToInstall.FullFileName} {fileToInstallArguments}";
+
+                    ProcessStartInfo startinfo = new ProcessStartInfo();
+                    startinfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    startinfo.FileName = "cmd.exe";
+                    startinfo.Arguments = command;
+                    Process process = new Process();
+                    process.StartInfo = startinfo;
+                    process.Start();
+                    process.WaitForExit();
                 }
-                ProcessStartInfo startinfo = new ProcessStartInfo();
-                startinfo.WindowStyle = ProcessWindowStyle.Hidden;
-                startinfo.FileName = "cmd.exe";
-                startinfo.Arguments = command;
-                Process process = new Process();
-                process.StartInfo = startinfo;
-                process.Start();
-                process.WaitForExit();
+
+                LogHelper.WriteToLog($"{fileToInstall.Filename} installation finished", LogState.Info);
             }
         }
 

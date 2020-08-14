@@ -57,6 +57,7 @@ namespace RietRob.Desktop.UI.ViewModels
         #region Constructor
         public MainViewModel()
         {
+            LogHelper.CreateLogFile();
             LogHelper.WriteLogOnStartup();
             LogHelper.WriteToLog("Application started", LogState.Info);
             ContentViewModel = new ContentViewModel();

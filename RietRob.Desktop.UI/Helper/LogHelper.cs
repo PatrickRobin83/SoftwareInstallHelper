@@ -72,7 +72,11 @@ namespace RietRob.Desktop.UI.Helper
 
             if (!File.Exists(LogFileName + ".log"))
             {
-                File.Create(LogFileName + ".log");
+                using (FileStream fs = new FileStream($@"{LogFileName}.log", FileMode.Create, FileAccess.ReadWrite))
+                {
+                    fs.Close();
+                    fs.Dispose();
+                }
             }
         }
 
@@ -108,6 +112,7 @@ namespace RietRob.Desktop.UI.Helper
                 sw.WriteLine($"OS is 64 Bit = {Environment.Is64BitOperatingSystem}");
                 sw.WriteLine("--------------------------------------------------------------------------------");
                 sw.Close();
+                sw.Dispose();
             }
         }
 
