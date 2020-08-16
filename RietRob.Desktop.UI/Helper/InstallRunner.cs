@@ -53,7 +53,7 @@ namespace RietRob.Desktop.UI.Helper
 
                     if (Directory.GetFiles($"C:\\{Environment.SpecialFolder.Programs}\\").Length >  0)
                     {
-                        DirectoryInfo di = new DirectoryInfo(@$"C:\{Environment.SpecialFolder.Programs}");
+                        DirectoryInfo di = new DirectoryInfo($@"C:\{Environment.SpecialFolder.Programs}");
                         foreach (FileInfo fileInfo in di.GetFiles())
                         {
                             filesToDelete.Add(fileInfo);

@@ -284,13 +284,13 @@ namespace RietRob.Desktop.UI.ViewModels
             try
             {
                 AvailableFiles.Add(SelectedPickedInstaller);
+                LogHelper.WriteToLog($"{SelectedPickedInstaller.Filename} is removed from installation list", LogState.Info);
                 PickedInstallerList.Remove(SelectedPickedInstaller);
                 btn_InstallIsVisible = CheckList(PickedInstallerList);
                 btn_AddInstallerIsVisible = CheckList(AvailableFiles);
                 btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
                 btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
                 btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
-                LogHelper.WriteToLog($"{SelectedPickedInstaller.Filename} is removed from installation list", LogState.Info);
             }
             catch (Exception e)
             {
@@ -304,7 +304,7 @@ namespace RietRob.Desktop.UI.ViewModels
                 foreach (Installer installer in PickedInstallerList)
                 {
                     AvailableFiles.Add(installer);
-                    LogHelper.WriteToLog($"{SelectedPickedInstaller.Filename} is removed from installation list", LogState.Info);
+                    LogHelper.WriteToLog($"{installer.Filename} is removed from installation list", LogState.Info);
                 }
                 PickedInstallerList.Clear();
                 btn_InstallIsVisible = CheckList(PickedInstallerList);
@@ -312,7 +312,6 @@ namespace RietRob.Desktop.UI.ViewModels
                 btn_AddAllInstallerIsVisible = CheckList(AvailableFiles);
                 btn_RemoveInstallerIsVisible = CheckList(PickedInstallerList);
                 btn_RemoveAllInstallerIsVisible = CheckList(PickedInstallerList);
-                LogHelper.WriteToLog($"{SelectedPickedInstaller.Filename} is removed from installation list", LogState.Info);
             }
             catch (Exception e)
             {
