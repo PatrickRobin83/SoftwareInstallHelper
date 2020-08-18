@@ -127,6 +127,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Installer\BGInfo.zip" />
     <None Include="Installer\usbdeviewx64_3.00.zip" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -146,6 +147,7 @@
     <Content Include="Installer\TeamViewer_Host_Setup.exe" />
     <Content Include="Installer\TreeSizeFreeSetup.exe" />
     <Content Include="Installer\UltraVNC_1_2_40_X64_Setup.exe" />
+    <Content Include="Installer\UserBenchMark.exe" />
     <Content Include="Installer\vlc-3.0.11-win64.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
