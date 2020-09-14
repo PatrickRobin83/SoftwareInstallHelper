@@ -41,7 +41,7 @@
 
         <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" 
                  Background="Black" Foreground="Green"
-                 Text="{Binding LoggerText}"/> 
+                 Text="{Binding LoggerText}" IsReadOnly="True"/> 
         
         <!-- Row III -->
         <Button Grid.Row="3" Grid.Column="2" x:Name="Exit" Width="200" Height="30" Content="Beenden"

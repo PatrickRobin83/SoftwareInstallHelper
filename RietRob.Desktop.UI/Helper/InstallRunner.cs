@@ -38,7 +38,10 @@ namespace RietRob.Desktop.UI.Helper
         #endregion
 
         #region Methods
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="installerCollection"></param>
         public static void InstallPrograms(ObservableCollection<Installer> installerCollection)
         {
             foreach (Installer fileToInstall in installerCollection)
@@ -65,6 +68,25 @@ namespace RietRob.Desktop.UI.Helper
                     Directory.CreateDirectory($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 12)}\");
                     ZipFile.ExtractToDirectory(fileToInstall.FullFileName,
                         $@"C:\Program Files\{fileToInstall.Filename.Substring(0, 12)}\");
+                }
+                else if (fileToInstall.FileExtension == ".bat")
+                {
+                    if (File.Exists(@"C:\Users\Public\Documents\" + fileToInstall.Filename))
+                    {
+                        File.Delete(@"C:\Users\Public\Documents\" + fileToInstall.Filename);
+                    }
+                    File.Copy(fileToInstall.FullFileName, @"C:\Users\Public\Documents\" + fileToInstall.Filename);
+
+                    ProcessStartInfo startinfo = new ProcessStartInfo();
+                    startinfo.WindowStyle = ProcessWindowStyle.Normal;
+                    startinfo.FileName = "cmd.exe";
+                    startinfo.Arguments = "/K \"schtasks.exe /Create /SC BEIMSTART /TN ChangeWindowsSettings /TR C:\\USERS\\PUBLIC\\Public\\Test.bat\"";
+                    Process process = new Process();
+                    process.StartInfo = startinfo;
+                    process.Start();
+                    Thread.Sleep(2000);
+                    //process.WaitForExit();
+
                 }
                 else if (substring.Equals("BGIn"))
                 {

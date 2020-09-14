@@ -1,0 +1,2 @@
+Print "Herzlich Willkommen"
+PAUSE

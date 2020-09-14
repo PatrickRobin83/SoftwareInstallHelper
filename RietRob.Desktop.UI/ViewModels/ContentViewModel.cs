@@ -171,6 +171,7 @@ namespace RietRob.Desktop.UI.ViewModels
             LogHelper.WriteToLog("Available Installer loaded", LogState.Info);
             return AvailableFiles;
         }
+
         private string CheckList(ObservableCollection<Installer> listToCheck)
         {
             string visibility = "hidden";
