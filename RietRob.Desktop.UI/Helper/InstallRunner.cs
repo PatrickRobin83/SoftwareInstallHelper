@@ -53,91 +53,19 @@ namespace RietRob.Desktop.UI.Helper
                 
                 if (substring.Equals("usbd"))
                 {
-                    if (Directory.Exists($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 12)}\"))
-                    {
-                        if (Directory.GetFiles($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 12)}\").Length > 0)
-                        {
-                            DirectoryInfo di = new DirectoryInfo($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 12)}\");
-                            foreach (FileInfo fileInfo in di.GetFiles())
-                            {
-                                File.Delete(fileInfo.FullName);
-                            }
-                        }
-                        Directory.Delete($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 12)}\");
-                    }
-                    Directory.CreateDirectory($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 12)}\");
-                    ZipFile.ExtractToDirectory(fileToInstall.FullFileName,
-                        $@"C:\Program Files\{fileToInstall.Filename.Substring(0, 12)}\");
+                    USBDevViewInstaller.installUSBDevWiew(fileToInstall);
                 }
                 else if (fileToInstall.FileExtension == ".bat")
                 {
-                    if (File.Exists(@"C:\Users\Public\Documents\" + fileToInstall.Filename))
-                    {
-                        File.Delete(@"C:\Users\Public\Documents\" + fileToInstall.Filename);
-                    }
-                    File.Copy(fileToInstall.FullFileName, @"C:\Users\Public\Documents\" + fileToInstall.Filename);
-
-                    ProcessStartInfo startinfo = new ProcessStartInfo();
-                    startinfo.WindowStyle = ProcessWindowStyle.Normal;
-                    startinfo.FileName = "cmd.exe";
-                    startinfo.Arguments = "/K \"schtasks.exe /Create /SC BEIMSTART /TN ChangeWindowsSettings /TR C:\\USERS\\PUBLIC\\Public\\Test.bat\"";
-                    Process process = new Process();
-                    process.StartInfo = startinfo;
-                    process.Start();
-                    Thread.Sleep(2000);
-                    //process.WaitForExit();
-
+                    BatInstaller.installBat(fileToInstall);
                 }
                 else if (substring.Equals("BGIn"))
                 {
-                    if (Directory.Exists($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 6)}\"))
-                    {
-                        if (Directory.GetFiles($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 6)}\").Length > 0)
-                        {
-                            DirectoryInfo di = new DirectoryInfo($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 6)}\");
-                            foreach (FileInfo fileInfo in di.GetFiles())
-                            {
-                                File.Delete(fileInfo.FullName);
-                            }
-                        }
-                        Directory.Delete($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 6)}\");
-                    }
-
-                    Directory.CreateDirectory($@"C:\Program Files\{fileToInstall.Filename.Substring(0, 6)}\");
-                    ZipFile.ExtractToDirectory(fileToInstall.FullFileName,
-                        $@"C:\Program Files\{fileToInstall.Filename.Substring(0, 6)}\");
-                    File.Copy($@"C:\Program Files\BGInfo\BGInfo.exe", $@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\BGInfo.exe",true);
-                    File.Copy($@"C:\Program Files\BGInfo\I7_Settings.bgi", $@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\I7_Settings.bgi", true);
-
-                    ProcessStartInfo startinfo = new ProcessStartInfo();
-                    startinfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    startinfo.FileName = "cmd.exe";
-                    startinfo.Arguments = "/K \"C:\\Program Files\\BGInfo\\bg.bat\"";
-                    Process process = new Process();
-                    process.StartInfo = startinfo;
-                    process.Start();
-                    Thread.Sleep(5000);
-                    process.WaitForExit();
+                    BGInfoInstaller.installBGInfo(fileToInstall);
                 }
                 else if (substring.Equals("User"))
                 {
-                    if (Directory.Exists($@"C:\Program Files\UserBenchMark\"))
-                    {
-                        if (Directory.GetFiles($@"C:\Program Files\UserBenchMark\").Length > 0)
-                        {
-                            DirectoryInfo di = new DirectoryInfo($@"C:\Program Files\UserBenchMark\");
-                            foreach (FileInfo fileInfo in di.GetFiles())
-                            {
-                                File.Delete(fileInfo.FullName);
-                            }
-                        }
-                        Directory.Delete($@"C:\Program Files\UserBenchMark\");
-                    }
-
-                    Directory.CreateDirectory($@"C:\Program Files\UserBenchMark\");
-
-                    File.Copy($@"{Environment.CurrentDirectory}\Installer\UserBenchMark.exe",
-                        $@"C:\Program Files\UserBenchMark\UserBenchMark.exe",true);
+                    UserBenchMarkInstaller.installUserBenchmark();
                 }
 
                 else

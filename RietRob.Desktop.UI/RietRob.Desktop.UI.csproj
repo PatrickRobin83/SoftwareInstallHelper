@@ -76,8 +76,12 @@
     </Compile>
     <Compile Include="Enums\LogState.cs" />
     <Compile Include="EventAggregationProvider.cs" />
+    <Compile Include="Helper\BatInstaller.cs" />
+    <Compile Include="Helper\BGInfoInstaller.cs" />
     <Compile Include="Helper\InstallRunner.cs" />
     <Compile Include="Helper\LogHelper.cs" />
+    <Compile Include="Helper\USBDevViewInstaller.cs" />
+    <Compile Include="Helper\UserBenchMarkInstaller.cs" />
     <Compile Include="Models\Installer.cs" />
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
