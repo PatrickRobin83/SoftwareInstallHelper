@@ -44,10 +44,12 @@
                  Text="{Binding LoggerText}" IsReadOnly="True"/> 
         
         <!-- Row III -->
-        <Button Grid.Row="3" Grid.Column="2" x:Name="Exit" Width="200" Height="30" Content="Beenden"
+        <Button Grid.Row="3" Grid.Column="2" x:Name="Exit" Width="200" 
+                Height="30" Content="Beenden"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"
                 Margin="0,10,10,10"
                 FontSize="20"/>
     </Grid>
 </Window>
+ 
