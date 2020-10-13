@@ -40,7 +40,7 @@
         <!-- Row II -->
 
         <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" 
-                 Background="Black" Foreground="Green"
+                 Background="Black" Foreground="Green" FontSize="24"
                  Text="{Binding LoggerText}" IsReadOnly="True"/> 
         
         <!-- Row III -->

@@ -26,13 +26,24 @@ namespace RietRob.Desktop.UI.ViewModels
         private string _title = "SoftwareInstallHelper";
         private bool _contentIsVisible = true;
         private ContentViewModel _contentViewModel;
-
+        private string _loggerText;
         #endregion
 
         #region Properties
         public string Title
         {
             get { return _title; }
+        }
+
+        public string LoggerText
+        {
+            get { return _loggerText; }
+            set
+            {
+                _loggerText = value; 
+                NotifyOfPropertyChange(() => LoggerText);
+            }
+
         }
         public ContentViewModel ContentViewModel
         {
@@ -60,6 +71,7 @@ namespace RietRob.Desktop.UI.ViewModels
             LogHelper.CreateLogFile();
             LogHelper.WriteLogOnStartup();
             LogHelper.WriteToLog("Application started", LogState.Info);
+            LoggerText = "1223";
             ContentViewModel = new ContentViewModel();
             ContentIsVisible = true;
             NotifyOfPropertyChange(() => ContentIsVisible);
